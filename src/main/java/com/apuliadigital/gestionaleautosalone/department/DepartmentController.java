@@ -32,8 +32,7 @@ public class DepartmentController {
 
     @PatchMapping("/{id}")
     public Department updateDepartment(@PathVariable Long id, @RequestBody Map<String, Object> update) {
-        Department updatedDepartment = departmentService.updateDepartment(id, update);
-        return updatedDepartment;
+       return departmentService.updateDepartment(id, update);
     }
 
     @DeleteMapping("/{id}")
