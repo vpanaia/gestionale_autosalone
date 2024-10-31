@@ -60,4 +60,8 @@ public class DepartmentService {
 
         return departmentRepository.save(department);
     }
+
+    public List<Department> searchDepartment(String query) {
+        return departmentRepository.findByNameContainingIgnoreCase(query);
+    }
 }

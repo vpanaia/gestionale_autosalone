@@ -41,4 +41,9 @@ public class DepartmentController {
         departmentService.deleteDepartment(id);
     }
 
+   @GetMapping("/search")
+   public List<Department> searchDepartment(@RequestParam String query) {
+        return departmentService.searchDepartment(query);
+   }
+
 }

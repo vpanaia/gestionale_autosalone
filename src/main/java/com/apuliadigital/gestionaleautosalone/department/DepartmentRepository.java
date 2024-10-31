@@ -17,4 +17,6 @@ public interface DepartmentRepository extends JpaRepository<Department, Long> {
 
     @Query("SELECT e FROM Department e WHERE e.id = :id AND e.deleted IS NULL")
     Optional<Department> findByIdNotDeleted(@Param("id") Long id);
+
+    List<Department> findByNameContainingIgnoreCase(String name);
 }
