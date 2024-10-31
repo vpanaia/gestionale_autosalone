@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 
@@ -27,6 +28,12 @@ public class DepartmentController {
     @PostMapping("/add")
     public Department addDepartment(@RequestBody Department department) {
         return departmentService.saveDepartment(department);
+    }
+
+    @PatchMapping("/{id}")
+    public Department updateDepartment(@PathVariable Long id, @RequestBody Map<String, Object> update) {
+        Department updatedDepartment = departmentService.updateDepartment(id, update);
+        return updatedDepartment;
     }
 
     @DeleteMapping("/{id}")

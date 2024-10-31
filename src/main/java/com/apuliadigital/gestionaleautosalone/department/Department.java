@@ -18,7 +18,8 @@ public class Department {
     @Column(name = "created", updatable = false)
     private LocalDateTime created;
 
-    private String updated;
+    @Column(name = "updated")
+    private LocalDateTime updated;
 
     @Column(name = "deleted")
     private LocalDateTime deleted;
@@ -26,6 +27,11 @@ public class Department {
     @PrePersist
     protected void onCreate() {
         created = LocalDateTime.now();
+    }
+
+    @PreUpdate
+    protected void onUpdate() {
+        updated = LocalDateTime.now();
     }
 
     public void softDelete() {
@@ -62,11 +68,11 @@ public class Department {
         this.created = created;
     }
 
-    public String getUpdated() {
+    public LocalDateTime getUpdated() {
         return updated;
     }
 
-    public void setUpdated(String updated) {
+    public void setUpdated(LocalDateTime updated) {
         this.updated = updated;
     }
 
