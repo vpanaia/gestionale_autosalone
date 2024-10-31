@@ -1,7 +1,5 @@
-package com.apuliadigitalmakers.gestionaleautosalone.controller;
+package com.apuliadigital.gestionaleautosalone.department;
 
-import com.apuliadigitalmakers.gestionaleautosalone.model.Departments;
-import com.apuliadigitalmakers.gestionaleautosalone.service.DepartmentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,17 +15,17 @@ public class DepartmentController {
     private DepartmentService departmentService;
 
     @GetMapping("/all")
-    public List<Departments> getAllDepartments() {
+    public List<Department> getAllDepartments() {
         return departmentService.findAllDepartments();
     }
 
     @GetMapping("/{id}")
-    public Optional<Departments> getDepartment(@PathVariable Long id) {
+    public Optional<Department> getDepartment(@PathVariable Long id) {
         return departmentService.findDepartmentById(id);
     }
 
     @PostMapping("/add")
-    public Departments addDepartment(@RequestBody Departments department) {
+    public Department addDepartment(@RequestBody Department department) {
         return departmentService.saveDepartment(department);
     }
 

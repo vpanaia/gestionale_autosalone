@@ -1,4 +1,4 @@
-package com.apuliadigitalmakers.gestionaleautosalone.model;
+package com.apuliadigital.gestionaleautosalone.department;
 
 import jakarta.persistence.*;
 
@@ -6,7 +6,8 @@ import java.time.LocalDateTime;
 
 
 @Entity
-public class Departments {
+@Table(name = "departments", schema = "gestionale_autosalone")
+public class Department {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -1,7 +1,5 @@
-package com.apuliadigitalmakers.gestionaleautosalone.service;
+package com.apuliadigital.gestionaleautosalone.department;
 
-import com.apuliadigitalmakers.gestionaleautosalone.model.Departments;
-import com.apuliadigitalmakers.gestionaleautosalone.repository.DepartmentRepository;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,21 +14,21 @@ public class DepartmentService {
     @Autowired
     private DepartmentRepository departmentRepository;
 
-    public List<Departments> findAllDepartments() {
+    public List<Department> findAllDepartments() {
         return departmentRepository.findNotDeleted();
     }
 
-    public Optional<Departments> findDepartmentById(Long id) {
+    public Optional<Department> findDepartmentById(Long id) {
         return departmentRepository.findByIdNotDeleted(id);
     }
 
-    public Departments saveDepartment(Departments department) {
+    public Department saveDepartment(Department department) {
         return departmentRepository.save(department);
     }
 
     @Transactional
     public void deleteDepartment(Long id) {
-       Departments department = departmentRepository
+       Department department = departmentRepository
                .findById(id)
                .orElseThrow(() -> new EntityNotFoundException("Department not found"));
 
