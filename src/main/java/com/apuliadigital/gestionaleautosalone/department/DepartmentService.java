@@ -67,6 +67,6 @@ public class DepartmentService {
     }
 
     public List<Department> searchDepartment(String query) {
-        return departmentRepository.findByNameContainingIgnoreCase(query);
+        return departmentRepository.findByNameStartsWithIgnoreCaseAndDeletedIsNull(query);
     }
 }

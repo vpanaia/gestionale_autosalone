@@ -3,15 +3,12 @@ package com.apuliadigital.gestionaleautosalone.department;
 import com.apuliadigital.gestionaleautosalone.common.ResponseBuilder;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 
 @RestController
@@ -98,13 +95,17 @@ public class DepartmentController {
 
    @GetMapping("/search")
    public ResponseEntity<?> searchDepartment(@RequestParam String query) {
-        List<Department> searchResults = departmentService.searchDepartment(query);
 
+       if (query.length() < 3) {
+           return ResponseBuilder.badRequest("Required at least 3 characters");
+       }
+
+        List<Department> searchResults = departmentService.searchDepartment(query);
         if (searchResults.isEmpty()) {
             return ResponseBuilder.notFound("Search has no results");
         }
 
-        return ResponseBuilder.success(searchResults);
+        return ResponseBuilder.searchResults(searchResults, searchResults.size());
    }
 
 }
