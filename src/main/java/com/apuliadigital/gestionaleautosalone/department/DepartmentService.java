@@ -12,6 +12,8 @@ import java.util.Optional;
 @Service
 public class DepartmentService {
 
+    private static final String notFoundMessage = "Department not found";
+
     @Autowired
     private DepartmentRepository departmentRepository;
 
@@ -19,8 +21,11 @@ public class DepartmentService {
         return departmentRepository.findNotDeleted();
     }
 
-    public Optional<Department> findDepartmentById(Long id) {
-        return departmentRepository.findByIdNotDeleted(id);
+    public Department findDepartmentById(Long id) {
+        return departmentRepository
+                .findByIdNotDeleted(id)
+                .orElseThrow(() -> new EntityNotFoundException(notFoundMessage));
+
     }
 
     public Department saveDepartment(Department department) {
@@ -30,8 +35,8 @@ public class DepartmentService {
     @Transactional
     public void deleteDepartment(Long id) {
        Department department = departmentRepository
-               .findById(id)
-               .orElseThrow(() -> new EntityNotFoundException("Department not found"));
+               .findByIdNotDeleted(id)
+               .orElseThrow(() -> new EntityNotFoundException(notFoundMessage));
 
        department.softDelete();
        departmentRepository.save(department);
@@ -42,7 +47,7 @@ public class DepartmentService {
         Optional<Department> optionalDepartment = departmentRepository.findByIdNotDeleted(id);
 
         if (optionalDepartment.isEmpty()) {
-            throw new EntityNotFoundException("Department not found");
+            throw new EntityNotFoundException(notFoundMessage);
         }
 
         Department department = optionalDepartment.get();
