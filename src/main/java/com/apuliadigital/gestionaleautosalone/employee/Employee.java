@@ -2,6 +2,9 @@ package com.apuliadigital.gestionaleautosalone.employee;
 
 import com.apuliadigital.gestionaleautosalone.department.Department;
 import com.apuliadigital.gestionaleautosalone.user.User;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import org.hibernate.annotations.ColumnDefault;
 
@@ -51,6 +54,9 @@ public class Employee {
 
     @OneToOne(mappedBy = "employee")
     private User user;
+
+    @JsonIgnore
+    private transient Object hibernateLazyInitializer;
 
     public Integer getId() {
         return id;
