@@ -1,8 +1,13 @@
 package com.apuliadigital.gestionaleautosalone.department;
 
+import com.apuliadigital.gestionaleautosalone.employee.Employee;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
+import org.hibernate.annotations.ColumnDefault;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 
 @Entity
@@ -11,31 +16,50 @@ public class Department {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false)
     private Long id;
+
+    @Column(name = "name", nullable = false)
     private String name;
+
+    @Column(name = "description", nullable = false)
     private String description;
 
+    @ColumnDefault("current_timestamp()")
     @Column(name = "created", updatable = false)
-    private LocalDateTime created;
+    private Instant created;
 
+    @ColumnDefault("current_timestamp()")
     @Column(name = "updated")
-    private LocalDateTime updated;
+    private Instant updated;
 
     @Column(name = "deleted")
-    private LocalDateTime deleted;
+    private Instant deleted;
+
+    @JsonIgnoreProperties("department")
+    @OneToMany(mappedBy = "department", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Employee> employees = new LinkedHashSet<>();
+
+    public Set<Employee> getEmployees() {
+        return employees;
+    }
+
+    public void setEmployees(Set<Employee> employees) {
+        this.employees = employees;
+    }
 
     @PrePersist
     protected void onCreate() {
-        created = LocalDateTime.now();
+        created = Instant.now();
     }
 
     @PreUpdate
     protected void onUpdate() {
-        updated = LocalDateTime.now();
+        updated = Instant.now();
     }
 
     public void softDelete() {
-        this.deleted = LocalDateTime.now();
+        this.deleted = Instant.now();
     }
 
 
@@ -60,27 +84,27 @@ public class Department {
         this.description = description;
     }
 
-    public LocalDateTime getCreated() {
+    public Instant getCreated() {
         return created;
     }
 
-    public void setCreated(LocalDateTime created) {
+    public void setCreated(Instant created) {
         this.created = created;
     }
 
-    public LocalDateTime getUpdated() {
+    public Instant getUpdated() {
         return updated;
     }
 
-    public void setUpdated(LocalDateTime updated) {
+    public void setUpdated(Instant updated) {
         this.updated = updated;
     }
 
-    public LocalDateTime getDeleted() {
+    public Instant getDeleted() {
         return deleted;
     }
 
-    public void setDeleted(LocalDateTime deleted) {
+    public void setDeleted(Instant deleted) {
         this.deleted = deleted;
     }
 }
