@@ -1,6 +1,7 @@
 package com.apuliadigital.gestionaleautosalone.department;
 
 import com.apuliadigital.gestionaleautosalone.employee.Employee;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import org.hibernate.annotations.ColumnDefault;
@@ -17,7 +18,7 @@ public class Department {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
-    private Long id;
+    private Integer id;
 
     @Column(name = "name", nullable = false)
     private String name;
@@ -25,14 +26,17 @@ public class Department {
     @Column(name = "description", nullable = false)
     private String description;
 
+    @JsonIgnore
     @ColumnDefault("current_timestamp()")
     @Column(name = "created", updatable = false)
     private Instant created;
 
+    @JsonIgnore
     @ColumnDefault("current_timestamp()")
     @Column(name = "updated")
     private Instant updated;
 
+    @JsonIgnore
     @Column(name = "deleted")
     private Instant deleted;
 
@@ -64,7 +68,7 @@ public class Department {
 
 
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 

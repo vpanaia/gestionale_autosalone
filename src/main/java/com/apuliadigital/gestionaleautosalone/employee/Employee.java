@@ -1,7 +1,7 @@
 package com.apuliadigital.gestionaleautosalone.employee;
 
 import com.apuliadigital.gestionaleautosalone.department.Department;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.apuliadigital.gestionaleautosalone.user.User;
 import jakarta.persistence.*;
 import org.hibernate.annotations.ColumnDefault;
 
@@ -48,6 +48,9 @@ public class Employee {
 
     @Column(name = "deleted")
     private Instant deleted;
+
+    @OneToOne(mappedBy = "employee")
+    private User user;
 
     public Integer getId() {
         return id;
@@ -135,6 +138,14 @@ public class Employee {
 
     public void setDeleted(Instant deleted) {
         this.deleted = deleted;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User users) {
+        this.user = users;
     }
 
 }

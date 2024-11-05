@@ -1,6 +1,7 @@
-package com.apuliadigital.gestionaleautosalone.users;
+package com.apuliadigital.gestionaleautosalone.user;
 
 import com.apuliadigital.gestionaleautosalone.employee.Employee;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import org.hibernate.annotations.ColumnDefault;
 
@@ -14,7 +15,8 @@ public class User {
     @Column(name = "id", nullable = false)
     private Integer id;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JsonIgnoreProperties({"department", "user"})
+    @OneToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "employee_id", nullable = false)
     private Employee employee;
 
