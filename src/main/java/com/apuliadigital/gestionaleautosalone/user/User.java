@@ -77,6 +77,10 @@ public class User {
         return isActive;
     }
 
+    public boolean enabled() {
+        return isActive != null && isActive == 1 && deleted == null;
+    }
+
     public void setIsActive(Byte isActive) {
         this.isActive = isActive;
     }
