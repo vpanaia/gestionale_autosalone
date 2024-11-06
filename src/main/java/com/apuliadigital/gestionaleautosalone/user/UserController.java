@@ -3,9 +3,7 @@ package com.apuliadigital.gestionaleautosalone.user;
 import com.apuliadigital.gestionaleautosalone.common.ResponseBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -28,6 +26,18 @@ public class UserController {
             }
 
         } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseBuilder.error();
+        }
+    }
+
+    @PostMapping("/add")
+    public ResponseEntity<?> addUser(@RequestBody UserRequestDTO userRequestDTO) {
+        try {
+            User user = userService.saveUser(userRequestDTO);
+            return ResponseBuilder.success(user);
+        }
+        catch (Exception e) {
             e.printStackTrace();
             return ResponseBuilder.error();
         }

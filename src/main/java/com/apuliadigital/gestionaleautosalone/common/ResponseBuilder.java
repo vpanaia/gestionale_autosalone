@@ -53,6 +53,20 @@ public final class ResponseBuilder {
         return new ResponseEntity<>(response, headers, errorCode);
     }
 
+    public static ResponseEntity<?> errorMessage(String message) {
+        HttpHeaders headers = new HttpHeaders();
+        Map<String, Object> response = new HashMap<>();
+
+        response.put("success", false);
+        response.put("message", message);
+
+        headers.setContentType(MediaType.APPLICATION_JSON);
+
+        return new ResponseEntity<>(response, headers, errorCode);
+    }
+
+
+
     public static ResponseEntity<?> deleted(String message) {
         HttpHeaders headers = new HttpHeaders();
         Map<String, Object> response = new HashMap<>();
@@ -88,5 +102,32 @@ public final class ResponseBuilder {
         headers.setContentType(MediaType.APPLICATION_JSON);
 
         return new ResponseEntity<>(response, headers, badRequestCode);
+    }
+
+    public static ResponseEntity<?> invalidCredentials() {
+        HttpHeaders headers = new HttpHeaders();
+        Map<String, Object> response = new HashMap<>();
+
+        response.put("success", false);
+        response.put("message", "Invalid username or password");
+
+        headers.setContentType(MediaType.APPLICATION_JSON);
+
+        return new ResponseEntity<>(response, headers, unauthorizedCode);
+    }
+
+    public static ResponseEntity<?> authSuccess(String jwt) {
+        HttpHeaders headers = new HttpHeaders();
+        Map<String, Object> response = new HashMap<>();
+
+        JwtUtil jwtUtil = new JwtUtil();
+
+        response.put("success", false);
+        response.put("token", jwt);
+        response.put("username", jwtUtil.extractUsername(jwt));
+
+        headers.setContentType(MediaType.APPLICATION_JSON);
+
+        return new ResponseEntity<>(response, headers, successCode);
     }
 }

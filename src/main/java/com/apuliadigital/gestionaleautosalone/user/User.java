@@ -4,6 +4,8 @@ import com.apuliadigital.gestionaleautosalone.employee.Employee;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import org.hibernate.annotations.ColumnDefault;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.time.Instant;
 
@@ -27,11 +29,11 @@ public class User {
     private String password;
 
     @ColumnDefault("0")
-    @Column(name = "is_active", nullable = false)
+    @Column(name = "is_active")
     private Byte isActive;
 
     @ColumnDefault("current_timestamp()")
-    @Column(name = "created", nullable = false)
+    @Column(name = "created")
     private Instant created;
 
     @ColumnDefault("current_timestamp()")
@@ -40,6 +42,17 @@ public class User {
 
     @Column(name = "deleted")
     private Instant deleted;
+
+    @PrePersist
+    protected void onCreate() {
+        created = Instant.now();
+        isActive = 0;
+    }
+
+    @PreUpdate
+    protected void onUpdate() {
+        updated = Instant.now();
+    }
 
     public Integer getId() {
         return id;
@@ -70,8 +83,10 @@ public class User {
     }
 
     public void setPassword(String password) {
-        this.password = password;
+        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        this.password = passwordEncoder.encode(password);
     }
+
 
     public Byte getIsActive() {
         return isActive;
@@ -108,5 +123,6 @@ public class User {
     public void setDeleted(Instant deleted) {
         this.deleted = deleted;
     }
+
 
 }
