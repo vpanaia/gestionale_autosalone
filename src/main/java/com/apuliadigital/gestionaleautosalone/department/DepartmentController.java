@@ -1,6 +1,13 @@
 package com.apuliadigital.gestionaleautosalone.department;
 
 import com.apuliadigital.gestionaleautosalone.common.ResponseBuilder;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -13,11 +20,17 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/departments")
+@Tag(name = "Departments", description = "List of Departments endpoints")
 public class DepartmentController {
 
     @Autowired
     private DepartmentService departmentService;
 
+    @Operation(summary = "Get the list of all departments")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Success", content = {@Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = Department.class))) }),
+            @ApiResponse(responseCode = "401", description = "Unauthorized")
+    })
     @GetMapping("/all")
     public ResponseEntity<?> getAllDepartments() {
         try {

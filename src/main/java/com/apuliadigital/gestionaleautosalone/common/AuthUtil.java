@@ -1,5 +1,6 @@
 package com.apuliadigital.gestionaleautosalone.common;
 
+import java.util.Arrays;
 import java.util.Base64;
 
 public class AuthUtil {
@@ -17,6 +18,7 @@ public class AuthUtil {
 
         String[] parts = decodedString.split(":");
         if (parts.length != 2) {
+            Logger.warning("Authorization basic header is not correct");
             throw new IllegalArgumentException("Authorization basic header is not correct");
         }
 

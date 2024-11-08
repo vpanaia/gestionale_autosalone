@@ -2,6 +2,8 @@ package com.apuliadigital.gestionaleautosalone.security;
 
 import com.apuliadigital.gestionaleautosalone.common.JwtUtil;
 import java.io.IOException;
+
+import com.apuliadigital.gestionaleautosalone.common.Logger;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -28,11 +30,14 @@ public class JwtFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws ServletException, IOException {
 
+
         String path = request.getRequestURI();
         if ("/auth".equals(path)) {
             chain.doFilter(request, response);
             return;
         }
+
+
 
         String authHeader = request.getHeader("Authorization");
         String username = null;
@@ -43,6 +48,7 @@ public class JwtFilter extends OncePerRequestFilter {
         if (authHeader != null && authHeader.startsWith("Bearer ")) {
             jwt = authHeader.substring(7);
             username = jwtUtil.extractUsername(jwt);
+
         }
 
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
@@ -58,6 +64,8 @@ public class JwtFilter extends OncePerRequestFilter {
 
                 authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                 SecurityContextHolder.getContext().setAuthentication(authToken);
+
+
             }
 
             chain.doFilter(request, response);
