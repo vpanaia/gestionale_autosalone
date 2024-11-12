@@ -21,9 +21,11 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfig {
 
     private final JwtFilter jwtFilter;
+    private final CorsFilter corsFilter;
 
-    public SecurityConfig(JwtFilter jwtFilter) {
+    public SecurityConfig(JwtFilter jwtFilter, CorsFilter corsFilter) {
         this.jwtFilter = jwtFilter;
+        this.corsFilter = corsFilter;
     }
 
     @Bean
@@ -35,6 +37,7 @@ public class SecurityConfig {
                         .requestMatchers("/auth", "/docs", "/swagger-ui/**", "/v3/api-docs/**", "/api/**").permitAll()
                         .anyRequest().authenticated()
                 )
+                .addFilterBefore(corsFilter, UsernamePasswordAuthenticationFilter.class)
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
